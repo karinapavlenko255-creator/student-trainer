@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Інтерактивний тренажер: Бізнес Кейс-Стаді</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+
+    <!-- Top Header -->
+    <header class="bg-indigo-900 text-white shadow-lg sticky top-0 z-30 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="p-2.5 bg-indigo-700/60 rounded-xl border border-indigo-500/30">
+                    <i class="fa-solid fa-chart-line text-indigo-300 text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">Бізнес-Тренажер: Кейс-Стаді</h1>
+                    <p class="text-xs text-indigo-200">Формула успіху: Особистість + Ідея + Ресурси = Успіх</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="loadSampleCase('nova_poshta')" class="text-xs bg-indigo-800/80 hover:bg-indigo-700 text-indigo-100 font-medium px-3 py-2 rounded-lg border border-indigo-600 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-lightbulb text-amber-300"></i> Приклад: Нова Пошта
+                </button>
+                <button onclick="loadSampleCase('apple')" class="text-xs bg-indigo-800/80 hover:bg-indigo-700 text-indigo-100 font-medium px-3 py-2 rounded-lg border border-indigo-600 transition flex items-center gap-1.5">
+                    <i class="fa-brands fa-apple"></i> Приклад: Apple
+                </button>
+                <button onclick="clearForm()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium px-3 py-2 rounded-lg transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-rotate-right"></i> Очистити
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+        
+        <!-- Task Header Banner -->
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 mb-8 no-print">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-5 mb-5">
+                <div>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-800 mb-2">
+                        <i class="fa-solid fa-graduation-cap"></i> Варіант 2: Аналітичний кейс-стаді
+                    </span>
+                    <h2 class="text-2xl font-bold text-slate-900">Аналіз успіху компанії за трикомпонентною формулою</h2>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="text-right">
+                        <span class="text-xs text-slate-500 block">Заповнено матеріалу:</span>
+                        <span id="progress-text" class="text-sm font-bold text-indigo-600">0%</span>
+                    </div>
+                    <div class="w-24 bg-slate-200 rounded-full h-2.5">
+                        <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                <strong>Мета завдання:</strong> Обрати реальний приклад відомої компанії або локального бізнесу (наприклад: Apple, McDonald's, Нова Пошта, місцева кав'ярня) та детально розкласти їхній успіх або невдачу за формулою 
+                <span class="font-semibold text-indigo-700">«Особистість + Ідея + Ресурси»</span>.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs bg-slate-50 p-4 rounded-xl border border-slate-200/80">
+                <div class="flex items-start space-x-2">
+                    <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 text-sm"></i>
+                    <div><strong>Крок 1:</strong> Оберіть компанію та вкажіть своє ім'я/групу.</div>
+                </div>
+                <div class="flex items-start space-x-2">
+                    <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 text-sm"></i>
+                    <div><strong>Крок 2:</strong> Заповніть 4 ключові розділи аналізу.</div>
+                </div>
+                <div class="flex items-start space-x-2">
+                    <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 text-sm"></i>
+                    <div><strong>Крок 3:</strong> Натисніть «Перевірити кейс» для самоконтролю та збережіть результат.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Printable Header (Visible only when printing) -->
+        <div class="hidden print-only mb-8 pb-4 border-b border-slate-300">
+            <h1 class="text-2xl font-bold">Звіт з аналітичного кейс-стаді</h1>
+            <p class="text-sm text-slate-600">Тема: Формула успіху в бізнесі: особистість + ідея + ресурси</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left Column: Form Controls & Inputs -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Student & Company Info Card -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-id-card text-indigo-600"></i> Інформація про дослідження
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Студент (ПІБ)</label>
+                            <input type="text" id="student-name" placeholder="напр., Іваненко Петро" oninput="updateProgress()"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Група / Клас</label>
+                            <input type="text" id="student-group" placeholder="напр., МЕН-21" oninput="updateProgress()"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Об'єкт дослідження (Компанія / Бізнес)</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="company-name" placeholder="напр., Нова Пошта, Apple, Starbucks..." oninput="updateProgress()"
+                                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition">
+                                <select id="preset-companies" onchange="selectPresetCompany(this.value)" class="px-3 py-2.5 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl text-xs font-medium text-slate-700 transition cursor-pointer">
+                                    <option value="">-- Готові шаблони --</option>
+                                    <option value="nova_poshta">Нова Пошта</option>
+                                    <option value="apple">Apple</option>
+                                    <option value="mcdonalds">McDonald's</option>
+                                    <option value="local_cafe">Крафтова кав'ярня</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 1: Personality -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 transition-all hover:border-indigo-200">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-lg">1</div>
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-lg">Особистість (Лідер)</h3>
+                                <p class="text-xs text-slate-500">Хто засновник/лідер та які його якості визначальні?</p>
+                            </div>
+                        </div>
+                        <button type="button" onclick="toggleHint('hint-1')" class="text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 no-print">
+                            <i class="fa-regular fa-lightbulb"></i> Підказка
+                        </button>
+                    </div>
+
+                    <!-- Hint Box -->
+                    <div id="hint-1" class="hidden mb-4 p-3.5 bg-blue-50 rounded-xl border border-blue-100 text-xs text-blue-900 leading-relaxed">
+                        <p class="font-semibold mb-1">🔍 На що звернути увагу:</p>
+                        <ul class="list-disc pl-4 space-y-1">
+                            <li>Хто стоїть біля витоків (напр., В'ячеслав Климов та Володимир Поперешнюк для Нової Пошти, Стів Джобс для Apple)?</li>
+                            <li>Які особисті якості виявив лідер: ініціативність, сміливість, стійкість до криз, бачення майбутнього, вміння згуртувати команду?</li>
+                            <li>Як поведінка лідера допомогла бізнесу вистояти під час криз (економічних, воєнних, конкурентних)?</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Ваш аналіз елементу «Особистість»:</label>
+                        <textarea id="section-personality" rows="4" oninput="updateProgress()" placeholder="Вкажіть ім'я лідера/засновника, опишіть його ключові лідерські якості, готовність ризикувати та роль у подоланні кризових періодів..."
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition"></textarea>
+                        <div class="flex justify-between items-center mt-1 text-[11px] text-slate-400">
+                            <span>Мінімум рекомендується: ~30-50 слів</span>
+                            <span id="word-count-personality">0 слів</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Idea -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 transition-all hover:border-indigo-200">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-lg">2</div>
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-lg">Ідея (Серце бізнесу)</h3>
+                                <p class="text-xs text-slate-500">У чому цінність ідеї та як вона адаптувалася?</p>
+                            </div>
+                        </div>
+                        <button type="button" onclick="toggleHint('hint-2')" class="text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 no-print">
+                            <i class="fa-regular fa-lightbulb"></i> Підказка
+                        </button>
+                    </div>
+
+                    <!-- Hint Box -->
+                    <div id="hint-2" class="hidden mb-4 p-3.5 bg-emerald-50 rounded-xl border border-emerald-100 text-xs text-emerald-900 leading-relaxed">
+                        <p class="font-semibold mb-1">🔍 На що звернути увагу:</p>
+                        <ul class="list-disc pl-4 space-y-1">
+                            <li>Яку конкретну проблему клієнтів вирішив продукт чи послуга?</li>
+                            <li>У чому полягала унікальність чи актуальність концепції на момент запуску?</li>
+                            <li>Як ідея змінювалася і адаптувалася зі зміною потреб ринку, трендів чи технологій?</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Ваш аналіз елементу «Ідея»:</label>
+                        <textarea id="section-idea" rows="4" oninput="updateProgress()" placeholder="Опишіть основну цінність продукту/послуги для ринку та клієнтів. Покажіть, як бізнес трансформував чи адаптував ідею з часом..."
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition"></textarea>
+                        <div class="flex justify-between items-center mt-1 text-[11px] text-slate-400">
+                            <span>Мінімум рекомендується: ~30-50 слів</span>
+                            <span id="word-count-idea">0 слів</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Resources -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 transition-all hover:border-indigo-200">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-lg">3</div>
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-lg">Ресурси (Паливо бізнесу)</h3>
+                                <p class="text-xs text-slate-500">За рахунок чого відбулося масштабування?</p>
+                            </div>
+                        </div>
+                        <button type="button" onclick="toggleHint('hint-3')" class="text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 no-print">
+                            <i class="fa-regular fa-lightbulb"></i> Підказка
+                        </button>
+                    </div>
+
+                    <!-- Hint Box -->
+                    <div id="hint-3" class="hidden mb-4 p-3.5 bg-amber-50 rounded-xl border border-amber-100 text-xs text-amber-900 leading-relaxed">
+                        <p class="font-semibold mb-1">🔍 На що звернути увагу:</p>
+                        <ul class="list-disc pl-4 space-y-1">
+                            <li>Фінансовий капітал (інвестиції, прибуток, кредити, франчайзинг).</li>
+                            <li>Людський капітал (команда, корпоративна культура, навчання персоналу).</li>
+                            <li>Технології, інфраструктура, автопарк, IT-платформи, логістичні термінали чи зв'язки.</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Ваш аналіз елементу «Ресурси»:</label>
+                        <textarea id="section-resources" rows="4" oninput="updateProgress()" placeholder="Проаналізуйте матеріальні, фінансові, людські та технологічні ресурси компанії, які допомогли перетворити стартап на масштабований бізнес..."
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition"></textarea>
+                        <div class="flex justify-between items-center mt-1 text-[11px] text-slate-400">
+                            <span>Мінімум рекомендується: ~30-50 слів</span>
+                            <span id="word-count-resources">0 слів</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Conclusion -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 transition-all hover:border-indigo-200">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-lg">4</div>
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-lg">Висновок та Синергія</h3>
+                                <p class="text-xs text-slate-500">Який елемент був вирішальним на старті, а який — далі?</p>
+                            </div>
+                        </div>
+                        <button type="button" onclick="toggleHint('hint-4')" class="text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 no-print">
+                            <i class="fa-regular fa-lightbulb"></i> Підказка
+                        </button>
+                    </div>
+
+                    <!-- Hint Box -->
+                    <div id="hint-4" class="hidden mb-4 p-3.5 bg-purple-50 rounded-xl border border-purple-100 text-xs text-purple-900 leading-relaxed">
+                        <p class="font-semibold mb-1">🔍 На що звернути увагу:</p>
+                        <ul class="list-disc pl-4 space-y-1">
+                            <li>Що дало перший поштовх (наприклад, харизма засновника чи революційна ідея)?</li>
+                            <li>Що стало критично важливим на етапі росту (наприклад, залучення системних ресурсів)?</li>
+                            <li>Як ці 3 елементи доповнювали один одного (синергія)?</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Ваш підсумковий висновок:</label>
+                        <textarea id="section-conclusion" rows="4" oninput="updateProgress()" placeholder="Зробіть порівняння та висновок: Що було ключовим для запуску бізнесу, а без чого компанія не змогла б масштабуватися?"
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition"></textarea>
+                        <div class="flex justify-between items-center mt-1 text-[11px] text-slate-400">
+                            <span>Мінімум рекомендується: ~30-50 слів</span>
+                            <span id="word-count-conclusion">0 слів</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap items-center justify-between gap-4 no-print pt-2">
+                    <button onclick="evaluateCase()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md hover:shadow-indigo-200 transition flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Перевірити кейс (Авто-аналіз)
+                    </button>
+
+                    <div class="flex items-center gap-2">
+                        <button onclick="printReport()" class="px-4 py-3 bg-slate-800 hover:bg-slate-900 text-white font-medium rounded-xl transition flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-print"></i> Друк / Зберегти PDF
+                        </button>
+                        <button onclick="exportData()" class="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl transition flex items-center gap-2 text-sm border border-slate-300">
+                            <i class="fa-solid fa-download"></i> Завантажити JSON
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Self-Check Checklist & AI Feedback Widget -->
+            <div class="space-y-6">
+                
+                <!-- Automated AI/Rule Feedback Panel -->
+                <div id="feedback-panel" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 sticky top-24">
+                    <h3 class="text-base font-bold text-slate-900 mb-3 flex items-center justify-between">
+                        <span class="flex items-center gap-2">
+                            <i class="fa-solid fa-chart-pie text-indigo-600"></i> Аналітичний фідбек
+                        </span>
+                        <span id="score-badge" class="px-2.5 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded-lg">Чернетка</span>
+                    </h3>
+
+                    <p class="text-xs text-slate-500 mb-4">Натисніть кнопку «Перевірити кейс», щоб отримати розширений огляд якості виконання завдання.</p>
+
+                    <!-- Score Meter -->
+                    <div class="mb-5 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <div class="flex justify-between items-center mb-1 text-xs font-semibold text-slate-700">
+                            <span>Глибина аналізу</span>
+                            <span id="score-val">0 / 100</span>
+                        </div>
+                        <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                            <div id="score-bar" class="bg-indigo-600 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <div id="score-description" class="text-[11px] text-slate-500">Заповніть усі текстові поля за планом.</div>
+                    </div>
+
+                    <!-- Criteria Checklist -->
+                    <div class="space-y-2.5 mb-5 text-xs">
+                        <div id="check-name" class="flex items-center justify-between text-slate-400">
+                            <span class="flex items-center gap-2"><i class="fa-regular fa-circle"></i> Вказано компанію та студента</span>
+                            <i class="fa-solid fa-minus text-[10px]"></i>
+                        </div>
+                        <div id="check-personality" class="flex items-center justify-between text-slate-400">
+                            <span class="flex items-center gap-2"><i class="fa-regular fa-circle"></i> Описано роль та якості лідера</span>
+                            <i class="fa-solid fa-minus text-[10px]"></i>
+                        </div>
+                        <div id="check-idea" class="flex items-center justify-between text-slate-400">
+                            <span class="flex items-center gap-2"><i class="fa-regular fa-circle"></i> Проаналізовано цінність ідеї</span>
+                            <i class="fa-solid fa-minus text-[10px]"></i>
+                        </div>
+                        <div id="check-resources" class="flex items-center justify-between text-slate-400">
+                            <span class="flex items-center gap-2"><i class="fa-regular fa-circle"></i> Визначено ресурси масштабування</span>
+                            <i class="fa-solid fa-minus text-[10px]"></i>
+                        </div>
+                        <div id="check-conclusion" class="flex items-center justify-between text-slate-400">
+                            <span class="flex items-center gap-2"><i class="fa-regular fa-circle"></i> Зроблено висновок про синергію</span>
+                            <i class="fa-solid fa-minus text-[10px]"></i>
+                        </div>
+                    </div>
+
+                    <!-- AI Recommendations Box -->
+                    <div id="recommendations-box" class="p-3.5 bg-indigo-50/70 border border-indigo-100 rounded-xl text-xs text-indigo-900 leading-relaxed">
+                        <p class="font-bold flex items-center gap-1.5 mb-1 text-indigo-950">
+                            <i class="fa-solid fa-compass"></i> Поради для вищої оцінки:
+                        </p>
+                        <p id="recommendation-text">Заповніть усі блоки аналізу. Використовуйте конкретні факти про вибрану компанію замість загальних фраз.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6 no-print">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+            <p>© Інтерактивний навчальний тренажер з підприємництва та менеджменту. Урок «Формула успіху в бізнесі».</p>
+        </div>
+    </footer>
+
+    <script>
+        // Pre-filled Case Samples
+        const SAMPLE_CASES = {
+            nova_poshta: {
+                student: "Олексій Коваленко",
+                group: "МЕН-201",
+                company: "Нова Пошта (Nova Post)",
+                personality: "Засновники В'ячеслав Климов та Володимир Поперешнюк. Їхні головні якості: сміливість запускати послугу експрес-доставки в часи, коли українці не мали довіри до приватних поштових служб, гнучкість та стійкість під час криз. Навіть під час повномасштабного вторгнення лідери особисто залишалися в Україні, переорієнтували логістику для гуманітарних потреб та зберегли команду.",
+                idea: "Головна цінність: швидка, прозора та гарантована доставка пакунків «від дверей до дверей» або у відділення за 24 години. Початкова ідея була орієнтована на B2B (бізнес), але з часом адаптувалася під розквіт e-commerce та B2C ринку, мобільний додаток, поштомати та міжнародну експрес-доставку в Європу.",
+                resources: "На старті: $7000 власних заощаджень та декілька орендованих машин. Двигун масштабування: інвестиції в сортувальні термінали нового покоління (автоматизація), власна IT-екосистема, розвиток франчайзингової мережі у малих містах, навчання тисяч співробітників та створення бренду із найвищим рівнем довіри.",
+                conclusion: "На старті вирішальною була ОСОБИСТІСТЬ та її віра у продукт у поєднанні з актуальною ІДЕЄЮ. Проте на етапі масштабування ключовим стало залучення та технологічне управління РЕСУРСАМИ. Без інфраструктури, терміналів та IT-систем ідея залишилася б на рівні декількох вантажівок."
+            },
+            apple: {
+                student: "Марія Бондаренко",
+                group: "БІЗ-102",
+                company: "Apple Inc.",
+                personality: "Стів Джобс та Стів Возняк. Перфекціонізм, безкомпромісне бачення, естетичний смак та харизма Стіва Джобса. Його вміння поєднувати технології з гуманітарними науками. Коли Джобса звільнили, компанія ледь не збанкрутувала, але його повернення в 1997 році знову врятувало Apple завдяки рішучим та жорстким антикризовим рішенням.",
+                idea: "Створення персональних комп'ютерів та гаджетів, якими легко користуватися звичайній людині («персональний комп'ютер як інструмент творчості»). Адаптація: перехід від лише комп'ютерів до екосистеми продуктів (iPod, iPhone, iPad, Apple Watch, цифрові сервіси).",
+                resources: "Венчурний капітал (Майк Марккула на початку), сильна команда інженерів та дизайнерів (Джоні Айв), інвестиції у власні чіпи (Apple Silicon), сильна екосистема розробників додатків App Store та глобальні ланцюги постачання.",
+                conclusion: "На старті ключовим драйвером була ОСОБИСТІСТЬ Стіва Джобса та його візіонерська ІДЕЯ. Під час масштабування та набуття статусу найдорожчої компанії світу вирішальними стали РЕСУРСИ — фінансові reserves, інженерні таланти та контроль ланцюгів постачання під керівництвом Тіма Кука."
+            },
+            mcdonalds: {
+                student: "Дмитро Сидоренко",
+                group: "МАРК-301",
+                company: "McDonald's",
+                personality: "Брати Макдональд (автори ідеї) та Рей Крок (підприємець-масштабувальник). Наполегливість, системне мислення, зацикленість на стандартизації та бачення національної мережі з боку Рея Крока, який розповсюдив концепцію на весь світ.",
+                idea: "Швидке та недороге харчування за рахунок конвеєрної системи приготування (Speedee Service System) та обмеженого меню. Адаптація: додавання McDrive, сніданків, еко-упаковки, цифрових терміналів самообслуговування та локальних страв для різних країн.",
+                resources: "Франчайзингова модель (залучення капіталу партнерів), нерухомість (McDonald's є одним з найбільших власників ділянок), чітко розписані регламенти роботи для кожного працівника та маркетинговий бюджет.",
+                conclusion: "Початкова ІДЕЯ швидкого харчування була геніальною, але вирішальною для перетворення на гіганта стала ОСОБИСТІСТЬ Рея Крока та створення унікальної франчайзингової системи як РЕСУРСУ для масштабування."
+            },
+            local_cafe: {
+                student: "Анна Мельник",
+                group: "ГОСТ-11",
+                company: "Місцева крафтова кав'ярня «KavaLab»",
+                personality: "Місцевий бариста-ентузіаст, який мріяв створити затишний простір для спільноти. Його пристрасть до спешелті-кави, емпатія, персональне знання постійних гостей та стійкість під час блекаутів (закупівля генератора, робота попри все).",
+                idea: "Кав'ярня третьої хвилі з акцентом на якісну каву свіжого обсмажування, затишну атмосферу для віддаленої роботи та локальну випічку. Адаптація: додавання позицій «кава з собою», продаж зерен для дому, проведення лекцій та каппінгів.",
+                resources: "Власні заощадження + кредит від банку. Професійна кавомашина, якісні зерна від українських обсмажчиків, сторінка в Instagram для просування та згуртована команда дружніх бариста.",
+                conclusion: "Для локального мікробізнесу серцем є ОСОБИСТІСТЬ та атмосфера. ІДЕЯ якісного продукту приваблює перших гостей, а оптимально розподлені РЕСУРСИ (обладнання та SMM) дозволяють залишатися прибутковими в умовах високої конкуренції."
+            }
+        };
+
+        function toggleHint(id) {
+            const hintEl = document.getElementById(id);
+            hintEl.classList.toggle('hidden');
+        }
+
+        function countWords(str) {
+            if (!str) return 0;
+            return str.trim().split(/\s+/).filter(word => word.length > 0).length;
+        }
+
+        function updateProgress() {
+            const name = document.getElementById('student-name').value;
+            const group = document.getElementById('student-group').value;
+            const company = document.getElementById('company-name').value;
+            const personality = document.getElementById('section-personality').value;
+            const idea = document.getElementById('section-idea').value;
+            const resources = document.getElementById('section-resources').value;
+            const conclusion = document.getElementById('section-conclusion').value;
+
+            // Update word counts
+            document.getElementById('word-count-personality').textContent = countWords(personality) + ' слів';
+            document.getElementById('word-count-idea').textContent = countWords(idea) + ' слів';
+            document.getElementById('word-count-resources').textContent = countWords(resources) + ' слів';
+            document.getElementById('word-count-conclusion').textContent = countWords(conclusion) + ' слів';
+
+            // Calculate progress percentage
+            let fieldsFilled = 0;
+            if (name.trim()) fieldsFilled++;
+            if (company.trim()) fieldsFilled++;
+            if (countWords(personality) >= 15) fieldsFilled++;
+            if (countWords(idea) >= 15) fieldsFilled++;
+            if (countWords(resources) >= 15) fieldsFilled++;
+            if (countWords(conclusion) >= 15) fieldsFilled++;
+
+            const pct = Math.round((fieldsFilled / 6) * 100);
+            document.getElementById('progress-text').textContent = pct + '%';
+            document.getElementById('progress-bar').style.width = pct + '%';
+        }
+
+        function selectPresetCompany(key) {
+            if (!key || !SAMPLE_CASES[key]) return;
+            loadSampleCase(key);
+        }
+
+        function loadSampleCase(key) {
+            const data = SAMPLE_CASES[key];
+            if (!data) return;
+
+            document.getElementById('student-name').value = data.student;
+            document.getElementById('student-group').value = data.group;
+            document.getElementById('company-name').value = data.company;
+            document.getElementById('section-personality').value = data.personality;
+            document.getElementById('section-idea').value = data.idea;
+            document.getElementById('section-resources').value = data.resources;
+            document.getElementById('section-conclusion').value = data.conclusion;
+
+            updateProgress();
+            evaluateCase();
+        }
+
+        function clearForm() {
+            if (confirm("Ви дійсно бажаєте очистити всі введені дані?")) {
+                document.getElementById('student-name').value = '';
+                document.getElementById('student-group').value = '';
+                document.getElementById('company-name').value = '';
+                document.getElementById('preset-companies').value = '';
+                document.getElementById('section-personality').value = '';
+                document.getElementById('section-idea').value = '';
+                document.getElementById('section-resources').value = '';
+                document.getElementById('section-conclusion').value = '';
+                
+                updateProgress();
+                resetEvaluation();
+            }
+        }
+
+        function resetEvaluation() {
+            document.getElementById('score-val').textContent = '0 / 100';
+            document.getElementById('score-bar').style.width = '0%';
+            document.getElementById('score-badge').className = "px-2.5 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded-lg";
+            document.getElementById('score-badge').textContent = "Чернетка";
+            document.getElementById('recommendation-text').textContent = "Заповніть усі блоки аналізу. Використовуйте конкретні факти про вибрану компанію замість загальних фраз.";
+            
+            ['check-name', 'check-personality', 'check-idea', 'check-resources', 'check-conclusion'].forEach(id => {
+                const el = document.getElementById(id);
+                el.className = "flex items-center justify-between text-slate-400";
+                el.children[0].innerHTML = `<i class="fa-regular fa-circle"></i> ${el.children[0].textContent.trim()}`;
+                el.children[1].className = "fa-solid fa-minus text-[10px]";
+            });
+        }
+
+        function evaluateCase() {
+            const name = document.getElementById('student-name').value.trim();
+            const company = document.getElementById('company-name').value.trim();
+            const pers = document.getElementById('section-personality').value;
+            const idea = document.getElementById('section-idea').value;
+            const res = document.getElementById('section-resources').value;
+            const conc = document.getElementById('section-conclusion').value;
+
+            let score = 0;
+            let recommendations = [];
+
+            // Check 1: Info
+            if (name && company) {
+                score += 15;
+                setCheckPassed('check-name', true);
+            } else {
+                setCheckPassed('check-name', false);
+                recommendations.push("Заповніть своє ім'я та назву досліджуваної компанії.");
+            }
+
+            // Check 2: Personality
+            const wPers = countWords(pers);
+            if (wPers >= 30) {
+                score += 22;
+                setCheckPassed('check-personality', true);
+            } else if (wPers > 5) {
+                score += 10;
+                setCheckPassed('check-personality', false);
+                recommendations.push("Доповніть блок «Особистість»: опишіть риси та рішення засновника у часи криз.");
+            } else {
+                setCheckPassed('check-personality', false);
+                recommendations.push("Заповніть аналіз блоку «Особистість».");
+            }
+
+            // Check 3: Idea
+            const wIdea = countWords(idea);
+            if (wIdea >= 30) {
+                score += 22;
+                setCheckPassed('check-idea', true);
+            } else if (wIdea > 5) {
+                score += 10;
+                setCheckPassed('check-idea', false);
+                recommendations.push("Поглибте блок «Ідея»: вкажіть, яку саме проблему ринку вона вирішує.");
+            } else {
+                setCheckPassed('check-idea', false);
+                recommendations.push("Заповніть аналіз блоку «Ідея».");
+            }
+
+            // Check 4: Resources
+            const wRes = countWords(res);
+            if (wRes >= 30) {
+                score += 21;
+                setCheckPassed('check-resources', true);
+            } else if (wRes > 5) {
+                score += 10;
+                setCheckPassed('check-resources', false);
+                recommendations.push("У блоці «Ресурси» уточніть, які фінансові, людські чи технологічні чинники прискорили ріст.");
+            } else {
+                setCheckPassed('check-resources', false);
+                recommendations.push("Заповніть аналіз блоку «Ресурси».");
+            }
+
+            // Check 5: Conclusion
+            const wConc = countWords(conc);
+            if (wConc >= 25) {
+                score += 20;
+                setCheckPassed('check-conclusion', true);
+            } else if (wConc > 5) {
+                score += 8;
+                setCheckPassed('check-conclusion', false);
+                recommendations.push("У висновку чітко розмежуйте: що дало поштовх на старті, а що було вирішальним при масштабуванні.");
+            } else {
+                setCheckPassed('check-conclusion', false);
+                recommendations.push("Додайте підсумковий висновок про синергію елементів.");
+            }
+
+            // Update UI Score
+            document.getElementById('score-val').textContent = score + ' / 100';
+            document.getElementById('score-bar').style.width = score + '%';
+
+            const badge = document.getElementById('score-badge');
+            if (score >= 85) {
+                badge.className = "px-2.5 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-lg";
+                badge.textContent = "Відмінно";
+            } else if (score >= 60) {
+                badge.className = "px-2.5 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-lg";
+                badge.textContent = "Добре";
+            } else {
+                badge.className = "px-2.5 py-1 bg-rose-100 text-rose-800 text-xs font-bold rounded-lg";
+                badge.textContent = "Потребує допрацювання";
+            }
+
+            const recBox = document.getElementById('recommendation-text');
+            if (recommendations.length === 0) {
+                recBox.innerHTML = "<span class='text-emerald-700 font-semibold'>Чудова робота!</span> Ваш аналіз вичерпний, деталізований та повністю відповідає вимогам кейс-стаді.";
+            } else {
+                recBox.innerHTML = "<ul class='list-disc pl-4 space-y-1'>" + recommendations.map(r => `<li>${r}</li>`).join('') + "</ul>";
+            }
+        }
+
+        function setCheckPassed(elementId, passed) {
+            const el = document.getElementById(elementId);
+            const labelText = el.innerText.trim();
+            if (passed) {
+                el.className = "flex items-center justify-between text-emerald-600 font-medium";
+                el.children[0].innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500"></i> ${labelText}`;
+                el.children[1].className = "fa-solid fa-check text-xs text-emerald-500";
+            } else {
+                el.className = "flex items-center justify-between text-slate-400";
+                el.children[0].innerHTML = `<i class="fa-regular fa-circle"></i> ${labelText}`;
+                el.children[1].className = "fa-solid fa-minus text-[10px]";
+            }
+        }
+
+        function printReport() {
+            window.print();
+        }
+
+        function exportData() {
+            const data = {
+                student: document.getElementById('student-name').value,
+                group: document.getElementById('student-group').value,
+                company: document.getElementById('company-name').value,
+                personality: document.getElementById('section-personality').value,
+                idea: document.getElementById('section-idea').value,
+                resources: document.getElementById('section-resources').value,
+                conclusion: document.getElementById('section-conclusion').value,
+                exportDate: new Date().toISOString()
+            };
+
+            const jsonStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Case_Study_${(data.company || 'Business').replace(/\s+/g, '_')}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
